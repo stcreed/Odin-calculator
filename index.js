@@ -134,7 +134,7 @@ function handleKeyboardInput(e) {
     calculator.updateDisplay();
   }
   if (e.key === '.') {
-    calculator.appendNumber();
+    calculator.appendNumber(e.key);
     calculator.updateDisplay();
   }
   if (e.key === '=' || e.key === 'Enter') {
