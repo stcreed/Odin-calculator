@@ -13,7 +13,7 @@ class Calculator {
     this.operation = undefined;
   }
 
-  delete() {
+  deleteNumber() {
     this.currentOperand = this.currentOperand.toString().slice(0, -1);
   }
 
@@ -87,6 +87,8 @@ class Calculator {
   }
 }
 
+window.addEventListener('keydown', handleKeyboardInput);
+
 const numberButtons = document.querySelectorAll('[data-number]');
 const operationButtons = document.querySelectorAll('[data-operation]');
 const equalsButton = document.querySelector('[data-equals]');
@@ -122,6 +124,40 @@ allClearButton.addEventListener('click', button => {
 });
 
 deleteButton.addEventListener('click', button => {
-  calculator.delete();
+  calculator.deleteNumber();
   calculator.updateDisplay();
 });
+
+function handleKeyboardInput(e) {
+  if (e.key >= 0 && e.key <= 9) {
+    calculator.appendNumber(e.key);
+    calculator.updateDisplay();
+  }
+  if (e.key === '.') {
+    calculator.appendNumber();
+    calculator.updateDisplay();
+  }
+  if (e.key === '=' || e.key === 'Enter') {
+    calculator.compute();
+    calculator.updateDisplay();
+  }
+  if (e.key === 'Backspace') {
+    calculator.deleteNumber();
+    calculator.updateDisplay();
+  }
+  if (e.key === 'Escape') {
+    calculator.clear();
+    calculator.updateDisplay();
+  }
+  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+    calculator.chooseOperation(convertOperator(e.key));
+    calculator.updateDisplay();
+  }
+}
+
+function convertOperator(keyboardOperator) {
+  if (keyboardOperator === '/') return '÷';
+  if (keyboardOperator === '*') return '×';
+  if (keyboardOperator === '-') return '−';
+  if (keyboardOperator === '+') return '+';
+}
